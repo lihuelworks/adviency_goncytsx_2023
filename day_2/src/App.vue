@@ -20,14 +20,14 @@ let stuff = ["🧦 Medias", "🍬 Caramelos", "🐟 Vitel tone"]
 
 <style scoped lang="scss">
 .app {
-  /* height: 100vh; */
-  /* color: oklch(10.79% 0.0026 237.54); */
   --app-bg: url('https://images.pexels.com/photos/91216/pexels-photo-91216.jpeg');
   display: grid;
   place-items: center;
   height: 100vh;
 
   background: oklch(10.79% 0.0026 237.54);
+  transition: transform 0.3s ease-out;
+
 }
 
 .background-image {
@@ -37,8 +37,9 @@ let stuff = ["🧦 Medias", "🍬 Caramelos", "🐟 Vitel tone"]
   background: var(--app-bg);
   background-size: cover;
   background-position: center;
-  transition: 0.3s ease-out;
-  
+  transition: 0.6s ease-out;
+  overflow: hidden;
+
   filter: blur(7px);
 
   &:after {
@@ -61,6 +62,19 @@ let stuff = ["🧦 Medias", "🍬 Caramelos", "🐟 Vitel tone"]
   background-color: oklch(100 0 0);
   padding: 2em;
   z-index: 100;
+
+
+  &:hover {
+    transform: scale(1.05);
+    transition: 0.3s ease-out;
+
+  }
+
+  &:hover~.background-image {
+    filter: blur(3px);
+    will-change: transform, filter;
+  }
+
 
   &>h1 {
     font-family: 'Mountains of Christmas', serif;
