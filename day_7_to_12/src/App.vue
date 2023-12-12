@@ -62,6 +62,7 @@ function openCloseDialog() {
     new_gift_name.value = ""
     new_gift_amount.value = 1
     new_gift_img_url.value = ""
+    new_gift_receiver.value = ""
     dialog_visible.value = false
     dialog.value.close()
   };
@@ -71,13 +72,13 @@ function openCloseDialog() {
 
 <template>
   <dialog class="dialog" ref="dialog" @click="openCloseDialog">
-    <form name="gift-form" method="dialog" @submit.prevent @keyup.enter="addGift" @click.stop>
-      <h2>🎁👇🏻 ¡Añadí tu regalo! 👇🏻🎁</h2>
-      <input autofocus type="text" v-model="new_gift_name" placeholder="Añadí el nombre de tu regalo" />
-      <input autofocus type="text" v-model="new_gift_receiver" placeholder="Añadí quien lo recibe" />
-      <input class="dialog-new-gift-img-url" autofocus type="text" v-model="new_gift_img_url"
+    <form name="gift-form" method="dialog" @keyup.enter="addGift"  @click.stop>
+      <h2>🎁 ¡Añadí tu regalo! 🎁</h2>
+      <input autofocus type="text" v-model="new_gift_name"  name="new_gift_name" placeholder="Añadí el nombre de tu regalo" />
+      <input autofocus type="text" v-model="new_gift_receiver" name="new_gift_receiver" placeholder="Añadí quien lo recibe" />
+      <input autofocus type="text" v-model="new_gift_img_url" name="new_gift_img_url" class="dialog-new-gift-img-url"
         placeholder="Añadí link a una imagen de tu regalo" />
-      <label class="dialog-new-gift-amount-label" for="new_gift_amount">Añadí el número de estos regalos: </label>
+      <label for="new_gift_amount"  class="dialog-new-gift-amount-label">Añadí el número de estos regalos: </label>
       <input type="number" name="new_gift_amount" id="new_gift_amount" min="1" placeholder="1" v-model="new_gift_amount">
       <button @click="openCloseDialog" class="close-dialog-button">Cerrar</button>
       <button @click="addGift" type="submit">Añadir</button>
@@ -131,13 +132,17 @@ dialog {
   padding: 0;
 
 
-
   &>form {
     display: grid;
     width: clamp(20em, 20vw, 50vw);
     row-gap: 2em;
     outline: 0em;
     padding: 3em 2em;
+
+    &>h2 {
+      font-size: 1.6em;
+
+    }
 
     &>input,
     &>button {
