@@ -5,7 +5,7 @@ Gonzalo Pozzo's (https://ar.linkedin.com/in/gonzalopozzo/en) Challenge to create
 
 <p>
   <br>
-<img src="https://imgur.com/a/QUE1SBP.gif" alt="Demo">
+<img src="demo.gif" alt="Demo">
   <br>
 </p>
 
