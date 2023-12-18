@@ -1,5 +1,5 @@
 {
-  "name": "day_5",
+  "name": "day_15_to_16",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^10.7.0",
+    "open-props": "^1.6.16",
     "vue": "^3.3.8"
   },
   "devDependencies": {
