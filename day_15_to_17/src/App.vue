@@ -9,15 +9,16 @@ const { isFetching, error, data } = useFetch(url)
 
 const gift_storage = window.localStorage.getItem('gift_storage')
 const gift_array = ref([
-  { gift_name: "🍬 caramelo", gift_receiver: "Mama", img_url: "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png" },
-  { gift_name: "🐟 vitel tone", gift_receiver: "Primito", img_url: "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png" },
-  { gift_name: "🧦 medias", gift_receiver: "Abuela", img_url: "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png" }])
+  { gift_name: "🍬 caramelo", gift_receiver: "Mama", gift_price: 15, img_url: "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png" },
+  { gift_name: "🐟 vitel tone", gift_receiver: "Primito", gift_price: 200, img_url: "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png" },
+  { gift_name: "🧦 medias", gift_receiver: "Abuela", gift_price: 300, img_url: "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png" }])
 
 if (gift_storage !== null) {
   gift_array.value = JSON.parse(gift_storage)
 }
 
 const new_gift_name = ref()
+const new_gift_price = ref(0)
 const new_gift_img_url = ref()
 const new_gift_receiver = ref()
 const new_gift_amount = ref(1)
@@ -75,7 +76,7 @@ function addGift() {
       // console.log("Error loading image, using placeholder instead!")
       new_gift_img_url.value = "https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png"
     }
-    const new_gift_object = { gift_name: new_gift_name.value, gift_receiver: new_gift_receiver.value, img_url: new_gift_img_url.value }
+    const new_gift_object = { gift_name: new_gift_name.value, gift_receiver: new_gift_receiver.value, gift_price: new_gift_price.value, img_url: new_gift_img_url.value }
     const new_gift_array = new Array(new_gift_amount.value).fill(new_gift_object)
     gift_array.value = [...new_gift_array, ...value]
   }
@@ -87,8 +88,8 @@ function addGift() {
 function editGift() {
   console.log("editGift called!")
   console.log("Index, ", dialog_index.value)
-  const new_gift_object = { gift_name: new_gift_name.value, gift_receiver: new_gift_receiver.value, img_url: new_gift_img_url.value }
-  console.log(gift_array.value.splice(dialog_index.value,1, new_gift_object))
+  const new_gift_object = { gift_name: new_gift_name.value, gift_receiver: new_gift_receiver.value, gift_price: new_gift_price.value, img_url: new_gift_img_url.value }
+  console.log(gift_array.value.splice(dialog_index.value, 1, new_gift_object))
   dialog_index.value = null
   openCloseDialog();
 
@@ -113,6 +114,7 @@ function openCloseDialog(mode, item, index) {
     dialog_index.value = index
 
     new_gift_name.value = item.gift_name;
+    new_gift_price.value = item.gift_price;
     new_gift_receiver.value = item.gift_receiver;
     new_gift_img_url.value = item.img_url;
   } else if (mode === "add") {
@@ -126,6 +128,7 @@ function openCloseDialog(mode, item, index) {
   }
   else {
     new_gift_name.value = ""
+    new_gift_price.value = 0
     new_gift_amount.value = 1
     new_gift_img_url.value = ""
     new_gift_receiver.value = ""
@@ -143,18 +146,23 @@ function openCloseDialog(mode, item, index) {
     <form name="gift-form" method="dialog">
       <h2>🎁 ¡Añadí tu regalo! 🎁</h2>
       <div class="dialog-new-gift-name-section">
-        <label for="new_gift_name" class="dialog-new-gift-amount-label">Añadí el nombre de tu regalo: </label>
+        <label for="new_gift_name" class="dialog-new-gift-name-label">Añadí el nombre de tu regalo: </label>
         <input autofocus type="text" v-model="new_gift_name" name="new_gift_name" />
         <button type="button" @click="randomGift">¡Sorprendeme!</button>
       </div>
 
+      <div class="dialog-new-gift-price-section">
+        <label for="new_gift_price" class="dialog-new-gift-price-label">Añadí el precio de tu regalo: </label>
+        <input autofocus type="number" v-model="new_gift_price" name="new_gift_price" />
+      </div>
+
       <div class="dialog-new-gift-receiver-section">
-        <label for="new_gift_receiver" class="dialog-new-gift-amount-label">Añadí quien lo recibe: </label>
+        <label for="new_gift_receiver" class="dialog-new-gift-receiver-label">Añadí quien lo recibe: </label>
         <input autofocus type="text" v-model="new_gift_receiver" name="new_gift_receiver" />
       </div>
 
       <div class="dialog-new-gift-url-section">
-        <label for="new_gift_img_url" class="dialog-new-gift-amount-label">Añadí link a una imagen de tu regalo: </label>
+        <label for="new_gift_img_url" class="dialog-new-gift-url-label">Añadí link a una imagen de tu regalo: </label>
         <input autofocus type="text" v-model="new_gift_img_url" name="new_gift_img_url" class="dialog-new-gift-img-url" />
       </div>
 
@@ -178,11 +186,11 @@ function openCloseDialog(mode, item, index) {
         Loading...
       </div>
       <div v-else>
-        <div v-if="gift_array.length" >
+        <div v-if="gift_array.length">
           <ul class="gift-list">
             <li v-for="(item, index) in gift_array" :id="`${item.gift_name}_${index}`" class="gift-item">
               <img :src="item.img_url" :alt="`Imagen de ${item.gift_name}`" class="gift-item-icon" />
-              <p class="gift-item-name">{{ item.gift_name }}</p>
+              <p class="gift-item-name">{{ item.gift_name }} <span>- ${{ item.gift_price }}</span></p>
               <p class="gift-item-receiver">{{ item.gift_receiver }}</p>
               <button @click="openCloseDialog('edit', item, index)" class="gift-item-edit-button">📝</button>
               <button @click="removeGift(item, index)" class="gift-item-remove-button">❌</button>
@@ -193,8 +201,8 @@ function openCloseDialog(mode, item, index) {
         <p v-else>
           No hay regalos, agregá uno!
         </p>
-            </div>
       </div>
+    </div>
   </div>
   <CSSnowflakes class="snow" />
   <div class="background-image"></div>v>
