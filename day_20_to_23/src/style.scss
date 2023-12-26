@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Mountains+of+Christmas:wght@700&display=swap');
+@import "open-props/normalize";
+@import "open-props/style";
+@import "open-props/animations";
+@import "open-props/easings";
+
+
+
+
+:root {
+  font-family: Kalam, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 0.6rem;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  background-color: oklch(60.7% 0.2 274);
+  color: white;
+
+  &:hover {
+    border-color: oklch(60.7% 0.15 274);
+    transform: scale(1.05);
+      transition: 0.3s ease-out;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+}
+
+input {
+  &:hover {
+    transform: scale(1.02);
+      transition: 0.3s ease-out;
+  }
+}
